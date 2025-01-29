@@ -1,4 +1,4 @@
-# Spring Kafka Tutorial - 2 Microservices
+# Spring Kafka Tutorial - 4 Microservices
 
 ## set up kafka (using Zookeeper)
 2 terminals in kafka directory ...
