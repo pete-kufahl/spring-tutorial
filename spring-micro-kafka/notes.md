@@ -35,3 +35,14 @@ can enter some text, ^C
   * change `application.properties` - `server.port=8081` in stock-service
   * `application.properties` - `server.port=8082` in email-service
 
+**IntelliJ lombok plugin does not appear to be working with the IDE compiler, even with the suggested workarounds. Adding your own setters, getters and toString() may be necessary.**
+
+### test order-service
+* with service on 8080, POST a request to http://localhost:8080/api/v1/orders
+```json
+{
+    "name": "computer",
+    "qty": 1,
+    "price": 1200
+}
+```
