@@ -8,4 +8,9 @@
 4. The result is sent back to the backend, which decides approval or rejection.
     - there will also be an asynchronous Reporter service for emails, another database, etc.
 5. The UI updates with the loan status.
-## loanz: Spirng Boot Backend
+## Technology Stack
+- Java and Spring boot
+- Python and Pytorch
+- React and Tailwind
+- Kafka
+- PostgreSQL
