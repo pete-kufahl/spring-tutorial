@@ -12,8 +12,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
-@NoArgsConstructor
 public class LoanApplication {
 
     @Id
@@ -26,6 +24,22 @@ public class LoanApplication {
     private int creditScore;
     private BigDecimal debtToIncomeRatio;
     private String status;  // PENDING, APPROVED, REJECTED
+
+    // ✅ Default no-argument constructor
+    public LoanApplication() {
+        this.status = "PENDING"; // Default status
+    }
+
+    // ✅ Parameterized constructor
+    public LoanApplication(String applicantName, BigDecimal income, BigDecimal loanAmount,
+                           int creditScore, BigDecimal debtToIncomeRatio) {
+        this.applicantName = applicantName;
+        this.income = income;
+        this.loanAmount = loanAmount;
+        this.creditScore = creditScore;
+        this.debtToIncomeRatio = debtToIncomeRatio;
+        this.status = "PENDING";
+    }
 
     @Override
     public final boolean equals(Object o) {
