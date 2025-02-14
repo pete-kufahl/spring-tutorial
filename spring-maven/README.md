@@ -17,3 +17,9 @@ Using the "configuration by java," the present state of the art in configuring S
   * registered in the bean registry in Spring, under the name given by `name=`
   * each bean is a singleton, and the @Bean-annotated function (`getSpeakerService`) is only executed the first time it's called
 * setter injection as a method call: calling a setter on a bean
+  * once the config class is set up, the references to the ..impl classes can be removed from the application code
+  * need to set up the application class to use the config class as well
+* constructor injection
+  * declare beans as before
+  * instead of calling the setters, call the required constructors instead
+  	* not passing objects around anymore 

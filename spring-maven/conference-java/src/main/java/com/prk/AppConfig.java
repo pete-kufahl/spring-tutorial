@@ -12,9 +12,8 @@ public class AppConfig {
 
     @Bean (name="speakerService")
     public SpeakerService getSpeakerService() {
-        SpeakerServiceImpl service = new SpeakerServiceImpl();
-        // inject the singleton bean, instead of using new Stub...Impl()
-        service.setRepository(getSpeakerRepository());
+        // constructor injection
+        SpeakerServiceImpl service = new SpeakerServiceImpl(getSpeakerRepository());
         return service;
     }
 
