@@ -12,7 +12,7 @@ Basic project build without using Spring to configure or inject dependencies. He
 ## conference-java
 Using the "configuration by java," the present state of the art in configuring Spring projects.
 
-* add a configuration pogo `AppConfig` with the `@Configuration` annotation
+* add a configuration POJO `AppConfig` with the `@Configuration` annotation
 * add a bean with `@Bean`, making a return an implementation of the SpeakerService interface
   * registered in the bean registry in Spring, under the name given by `name=`
   * each bean is a singleton, and the @Bean-annotated function (`getSpeakerService`) is only executed the first time it's called
@@ -22,4 +22,14 @@ Using the "configuration by java," the present state of the art in configuring S
 * constructor injection
   * declare beans as before
   * instead of calling the setters, call the required constructors instead
-  	* not passing objects around anymore 
+  	* not passing objects around anymore
+  * preferred way, esp. if we want to used constructors to guarantee a way in which objects are created 
+
+* Scopes in Spring
+  * Singleton (default)
+	* one instantiation per Spring container / application context
+	* `@scope("singleton")`
+  * Prototype
+  * Request (web only)
+  * Session (web only)
+  * Global (web only)
