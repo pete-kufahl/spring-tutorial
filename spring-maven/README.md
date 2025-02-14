@@ -36,7 +36,7 @@ Using the "configuration by java" technique in configuring Spring projects.
   * GlobalSession (web only) - one bean per application, regardless of number of clients
 
 ## conference-autowired
-* using `@Autowired` allows the wiring-in of a component (repository) into another component (service-impl) without using an explicit constructor (with arguments) or an explicit setter method
+using `@Autowired` allows the wiring-in of a component (repository) into another component (service-impl) without using an explicit constructor (with arguments) or an explicit setter method
 * `@Component` is a Spring stereotype that works like a bean
 * `@Repository` denotes a class to be used as a repository object (interfacing a database)
 * `@Service` denotes a class where we put business logic
@@ -46,4 +46,7 @@ Using the "configuration by java" technique in configuring Spring projects.
 	* no longer need to declare them as beans in the app-config class
 	* injection of repository into the service still happens via auto-wiring
 * by adding `@Autowired` to the parameterized constructor, we make the application use constructor injection instead of setter injection
+
+## conference-xml
+Use an XML file to add Spring configuration, instead of using java code; it's an older method, but maintains separation of concerns
 
