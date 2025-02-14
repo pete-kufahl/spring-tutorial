@@ -41,5 +41,8 @@ Using the "configuration by java" technique in configuring Spring projects.
 * `@Repository` denotes a class to be used as a repository object (interfacing a database)
 * `@Service` denotes a class where we put business logic
 	* `@Controller` is more associated with web-application logic
-
 * add `@ComponentScan({package-name})` to the app-config class to tell Spring to look for these components
+* declare `@Service` and `@Repository` in the ..impl classes in the application code
+	* no longer need to declare them as beans in the app-config class
+	* injection of repository into the service still happens via auto-wiring
+

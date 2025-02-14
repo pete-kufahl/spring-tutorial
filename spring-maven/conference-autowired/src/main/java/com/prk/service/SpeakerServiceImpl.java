@@ -13,10 +13,12 @@ import java.util.List;
 @Scope(value= BeanDefinition.SCOPE_SINGLETON)
 public class SpeakerServiceImpl implements SpeakerService {
 
+
     public SpeakerServiceImpl() {
         System.out.println("SpeakerServiceImpl default constructor...");
     }
 
+    @Autowired
     public SpeakerServiceImpl(SpeakerRepository repository) {
         System.out.println("SpeakerServiceImpl repository constructor...");
         this.repository = repository;
@@ -24,11 +26,13 @@ public class SpeakerServiceImpl implements SpeakerService {
 
     private SpeakerRepository repository;
 
+    /*
     @Autowired
     public void setRepository(SpeakerRepository repository) {
         System.out.println("SpeakerServiceImpl setter...");
         this.repository = repository;
     }
+    */
 
     @Override
     public List<Speaker> findAll() {
