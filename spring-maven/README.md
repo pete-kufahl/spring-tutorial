@@ -49,4 +49,20 @@ using `@Autowired` allows the wiring-in of a component (repository) into another
 
 ## conference-xml
 Use an XML file to add Spring configuration, instead of using java code; it's an older method, but maintains separation of concerns
+* add the app context XML into src/main/resources/
+	* need to declare the xml version and <beans/> namespace
+	* define <bean /> components, which are essentially classes
+		* they replace the keyword `new`
+	* define bean with the implementation class, in code reference the interface
+* setter injection & constructor injection still both available, with setters better for existing code
+	* for setter injection:
+		* in service impl, remove reference to repository impl
+		* generate setter for repository member
+		* in XML, define the service impl <bean /> with repository impl <property />
+	* in the main application, declare a context object that references the XML
+		* use the context to load the service by name and class
+	* all spring config code is out of the app code, instead defined in the XML
+* constructor injection
+	* adv: guaranteed contract
+	* dis: constructor has to be defined for each situation
 

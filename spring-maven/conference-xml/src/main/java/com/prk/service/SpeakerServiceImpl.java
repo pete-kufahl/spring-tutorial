@@ -2,13 +2,16 @@ package com.prk.service;
 
 import com.prk.model.Speaker;
 import com.prk.repository.SpeakerRepository;
-import com.prk.repository.StubSpeakerRepositoryImpl;
 
 import java.util.List;
 
 public class SpeakerServiceImpl implements SpeakerService {
 
-    private SpeakerRepository repository = new StubSpeakerRepositoryImpl();
+    private SpeakerRepository repository;
+
+    public void setSpeakerRepository(SpeakerRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Speaker> findAll() {
