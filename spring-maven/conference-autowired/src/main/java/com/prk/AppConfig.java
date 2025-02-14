@@ -30,9 +30,10 @@ public class AppConfig {
         return service;
     }
     */
-
+    /*
     @Bean (name="speakerRepository")
     public SpeakerRepository getSpeakerRepository() {
         return new StubSpeakerRepositoryImpl();
     }
+     */
 }

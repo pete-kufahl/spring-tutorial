@@ -1,10 +1,12 @@
 package com.prk.repository;
 
 import com.prk.model.Speaker;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository("SpeakerRepository")
 public class StubSpeakerRepositoryImpl implements SpeakerRepository {
 
     @Override
