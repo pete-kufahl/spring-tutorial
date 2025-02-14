@@ -6,7 +6,7 @@
 
     <bean name="speakerRepository" class="com.prk.repository.StubSpeakerRepositoryImpl" />
 
-    <bean name="speakerService" class="com.prk.service.SpeakerServiceImpl">
-        <constructor-arg index="0" ref="speakerRepository" />
+    <bean name="speakerService" class="com.prk.service.SpeakerServiceImpl" autowire="constructor">
+<!--        <constructor-arg index="0" ref="speakerRepository" />-->
     </bean>
 </beans>

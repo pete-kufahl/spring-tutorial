@@ -68,6 +68,11 @@ Use an XML file to add Spring configuration, instead of using java code; it's an
 	* dis: constructor has to be defined for each situation
 	* generate constructor in service impl, delete default constructor
 	* change definition of bean in XML: `property` --> `constructor-arg` (index-based identifiers, not name-based)
+* autowire
+	* using `constructor` just needs the bean definition change
+	* using `byType` requires the service impl class to have the default constructor
+	* using `byName` requires the setter method name to match the name inside the XML
+
 
 	
 
