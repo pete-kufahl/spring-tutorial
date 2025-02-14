@@ -45,4 +45,5 @@ Using the "configuration by java" technique in configuring Spring projects.
 * declare `@Service` and `@Repository` in the ..impl classes in the application code
 	* no longer need to declare them as beans in the app-config class
 	* injection of repository into the service still happens via auto-wiring
+* by adding `@Autowired` to the parameterized constructor, we make the application use constructor injection instead of setter injection
 
