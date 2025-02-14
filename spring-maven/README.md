@@ -10,7 +10,7 @@ Basic project build without using Spring to configure or inject dependencies. He
   * repository and service tiers began with hard-coded "Impl" classes, and then the IDE used to extract interfaces
 
 ## conference-java
-Using the "configuration by java," the present state of the art in configuring Spring projects.
+Using the "configuration by java" technique in configuring Spring projects.
 
 * add a configuration POJO `AppConfig` with the `@Configuration` annotation
 * add a bean with `@Bean`, making a return an implementation of the SpeakerService interface
@@ -24,12 +24,16 @@ Using the "configuration by java," the present state of the art in configuring S
   * instead of calling the setters, call the required constructors instead
   	* not passing objects around anymore
   * preferred way, esp. if we want to used constructors to guarantee a way in which objects are created 
-
 * Scopes in Spring
   * Singleton (default)
 	* one instantiation per Spring container / application context
 	* `@scope("singleton")`
   * Prototype
-  * Request (web only)
-  * Session (web only)
-  * Global (web only)
+	* guarantees a unique instance per request
+	* `@scope("prototype")`
+  * Request (web only) - one bean per http request
+  * Session (web only) - one bean per http session
+  * GlobalSession (web only) - one bean per application, regardless of number of clients
+
+## conference-autowired
+
