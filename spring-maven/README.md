@@ -61,8 +61,13 @@ Use an XML file to add Spring configuration, instead of using java code; it's an
 		* in XML, define the service impl <bean /> with repository impl <property />
 	* in the main application, declare a context object that references the XML
 		* use the context to load the service by name and class
-	* all spring config code is out of the app code, instead defined in the XML
+	* all spring config annotations are out of the app code, instead defined in the XML
+		* the app code is still modified as a consequence of spring configuration
 * constructor injection
 	* adv: guaranteed contract
 	* dis: constructor has to be defined for each situation
+	* generate constructor in service impl, delete default constructor
+	* change definition of bean in XML: `property` --> `constructor-arg` (index-based identifiers, not name-based)
+
+	
 

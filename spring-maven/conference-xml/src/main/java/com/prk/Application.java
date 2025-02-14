@@ -1,7 +1,6 @@
 package com.prk;
 
 import com.prk.service.SpeakerService;
-import com.prk.service.SpeakerServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
