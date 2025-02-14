@@ -24,7 +24,7 @@ Using the "configuration by java" technique in configuring Spring projects.
   * instead of calling the setters, call the required constructors instead
   	* not passing objects around anymore
   * preferred way, esp. if we want to used constructors to guarantee a way in which objects are created 
-* Scopes in Spring
+* scopes in Spring
   * Singleton (default)
 	* one instantiation per Spring container / application context
 	* `@scope("singleton")`
@@ -36,4 +36,10 @@ Using the "configuration by java" technique in configuring Spring projects.
   * GlobalSession (web only) - one bean per application, regardless of number of clients
 
 ## conference-autowired
+* using `@Autowired` allows the wiring-in of a component (repository) into another component (service-impl) without using an explicit constructor (with arguments) or an explicit setter method
+* `@Component` is a Spring stereotype that works like a bean
+* `@Repository` denotes a class to be used as a repository object (interfacing a database)
+* `@Service` denotes a class where we put business logic
+	* `@Controller` is more associated with web-application logic
 
+* add `@ComponentScan({package-name})` to the app-config class to tell Spring to look for these components
