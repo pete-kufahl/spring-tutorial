@@ -2,7 +2,6 @@ package com.prk.service;
 
 import com.prk.model.Speaker;
 import com.prk.repository.SpeakerRepository;
-import com.prk.repository.StubSpeakerRepositoryImpl;
 
 import java.util.List;
 
