@@ -1,18 +1,6 @@
 package com.prk.tickets.events;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-@Repository
-public class OrganizerRepository {
-
-    private final List<Organizer> organizers = List.of(
-            new Organizer(101, "WM", "Waste Management"),
-            new Organizer(102, "CTAS", "Cintas Corporation")
-    );
-
-    public List<Organizer> findAll() {
-        return organizers;
-    }
+public interface OrganizerRepository extends JpaRepository<Organizer, Integer> {
 }

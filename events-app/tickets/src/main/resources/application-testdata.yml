@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: tickets
+  data:
+    mongodb:
+      uri: mongodb://root:example@localhost:27017/tickets?authSource=admin
+  datasource:
+    url:  jdbc:postgresql://localhost:5432/tickets
+    username: tickets
+    password: tickets
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  sql:
+    init:
+      mode: always
