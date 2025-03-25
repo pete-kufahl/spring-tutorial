@@ -1,6 +1,8 @@
 package com.prk.registration;
 
-import jakarta.validation.Valid;
+import com.prk.events.Event;
+import com.prk.events.EventsClient;
+import com.prk.events.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -10,18 +12,25 @@ import java.util.UUID;
 @RequestMapping(path = "/registrations")
 public class RegistrationController {
 
+    private final EventsClient eventsClient;
     private final RegistrationRepository registrationRepository;
 
-    public RegistrationController(RegistrationRepository registrationRepository) {
+    public RegistrationController(EventsClient eventsClient, RegistrationRepository registrationRepository) {
+        this.eventsClient = eventsClient;
         this.registrationRepository = registrationRepository;
     }
 
     @PostMapping
-    public Registration create(@RequestBody @Valid Registration registration) {
+    public Registration create(@RequestBody Registration registration) {
+        System.out.println("POST registrations called with: " + registration);
+        Product product = eventsClient.getProductById(registration.productId());
+        Event event = eventsClient.getEventById(product.eventId());
         String ticketCode = UUID.randomUUID().toString();
         return registrationRepository.save(new Registration(
                 null,   // supplied by mongo
                 registration.productId(),
+                event.name(),
+                product.price(),
                 ticketCode,
                 registration.attendeeName()));
     }
@@ -42,6 +51,8 @@ public class RegistrationController {
         return registrationRepository.save(new Registration(
                 existing.id(),
                 existing.productId(),
+                existing.eventName(),
+                existing.amount(),
                 ticketCode,
                 registration.attendeeName()));
     }
