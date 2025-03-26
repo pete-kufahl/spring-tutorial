@@ -23,4 +23,5 @@ SpringBoot application following *Spring Boot 3 Fundamentals* course.
     * `\select * from events` and so on
 * web
   * WebClient
+  * Http Service Proxy
 
