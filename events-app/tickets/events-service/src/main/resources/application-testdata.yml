@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url:  jdbc:postgresql://localhost:5432/tickets
+    username: tickets
+    password: tickets
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  sql:
+    init:
+      platform: postgres
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql

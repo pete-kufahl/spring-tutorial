@@ -1,0 +1,17 @@
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: tickets
+      POSTGRES_PASSWORD: tickets
+    ports:
+      - '5432:5432'
