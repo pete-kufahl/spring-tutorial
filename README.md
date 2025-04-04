@@ -1,8 +1,11 @@
 # spring-tutorial
-microservices projects for spring &amp; spring boot
+microservices projects for spring &amp; springboot
 
 ## spring-micro-kafka
 4 small microservices connected by a kafka messaging system
+
+## spring-maven
+variations of a spring microservice built and configured without springboot 
 
 ## spring-mongo
 springboot project featuring mongoDB backend
