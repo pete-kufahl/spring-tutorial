@@ -1,0 +1,26 @@
+create a text index
+> db.newyork.createIndex({ space: "text" })
+
+then, can search for text inside the space field
+> db.newyork.findOne( {$text: {$search: "Tribeca"}}, {name: 1, space: 1})
+> db.newyork.find( {$text: {$search: "Tribeca"}}).count()
+
+$search tokenizes, removes stop words, stems, sets to lowercase
+this returns an array of stemmed words to match with $or
+
+refine the query
+searching with AND op: use double quotes and escape them
+ex. search for bedroom apartment (not necessarily in that order)
+> db.newyork.find({ $text: { $search: "\"bedroom apartment\""}}, {_id: 0, name: 1, description: 1}).limit(5)
+
+mixing with an OR
+* if the $search string includes a phrase and individual terms, text search will only match the documents that include the phrase
+- so "sunny bedroom apartment" == "sunny" OR "bedroom" OR "apartment"
+- but "sunny \" bedroom apartment\"" == ("sunny" OR "bedroom" OR "apartment") AND "bedroom apartment"
+
+removing elements with NOT
+- "bedroom apartment" == "bedroom" OR "apartment"
+- "bedroom -apartment" == "bedroom" AND NOT "apartment"
+
+
+
