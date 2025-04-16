@@ -21,6 +21,60 @@ mixing with an OR
 removing elements with NOT
 - "bedroom apartment" == "bedroom" OR "apartment"
 - "bedroom -apartment" == "bedroom" AND NOT "apartment"
+- "apartment-wrecker -bedroom" == "apartment-wrecker" AND NOT "bedroom"
+> db.newyork.find({$text: {$search: "bedroom apartment"}}).count()
+--> 22634
+> db.newyork.find({$text: {$search: "bedroom"}}).count()
+--> 14658
+> db.newyork.find({$text: {$search: "-bedroom apartment"}}).count()
+--> 7976
+> db.newyork.find({$text: {$search: "apartment"}}).count()
+--> 17373
+> db.newyork.find({$text: {$search: "bedroom -apartment"}}).count()
+--> 5261
+
+ex. search for Tribeca lofts, using name as text field
+(i dropped the existing text index)
+> db.newyork.createIndex({name: "text"})
+> db.newyork.find({$text: {$search: "\"Tribeca\" loft"}}, {_id: 0, name: 1})
+non-loft Tribeca places:
+> db.newyork.find({$text: {$search: "Tribeca -loft"}}, {_id: 0, name: 1})
+non-loft Tribeca OR non-loft East Village places:
+> db.newyork.find({$text: {$search: "Tribeca \"East Village\" -loft"}}, {_id: 0, name: 1})
+
+
+$meta operator
+when mongodb performs a text search, it calculates the relevance of the search term in a text field -> relevance score
+we can access that score with $meta
+e.g. score: {$meta: "textScore"}
+> db.newyork.find({$text: {$search: "tribeca loft"}}, {_id: 0, name: 1, score: {$meta: "textScore"}}).sort(({score: {$meta: "textScore"}}))
+* must have the score in the projection in order to use it in the sort (must be named the same, too)
+
+$search with $caseSensitive: true
+turns text search into exact-matching
+
+$search with $diacriticSensitive: true
+diacritic sensitivity: distinguishing between letters with diacritic differences (e.g. in Polish or Spanish)
+
+non-default languages can be specified
+they can also be different than the indexed language
+the collection can also have language fields to allow language-specific text searches
+
+demo
+> db.newyork.dropIndexes()
+> db.newyork.createIndex({"name": "text", "space": "text"})
+> db.newyork.find({$text: {$search: "Namasté", $diacriticSensitive: false}}, {name: 1}) --> 1 result
+> db.newyork.find({$text: {$search: "Namasté", $diacriticSensitive: true}}, {name: 1}) --> same result!
+* diacritic symbol is at the end: exact search
+try without the diacritic in the search term
+> db.newyork.find({$text: {$search: "Namaste", $diacriticSensitive: false}}, {name: 1}) --> 1 result, different than above
+> db.newyork.find({$text: {$search: "Namaste", $diacriticSensitive: true}}, {name: 1}) --> same result!
+* when the capital letter or diacritic symbol is the last character, sensitive and insensitive searches will return the same result
+
+
+
+
+
 
 
 
