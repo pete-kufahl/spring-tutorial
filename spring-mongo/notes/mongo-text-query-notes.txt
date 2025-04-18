@@ -71,8 +71,40 @@ try without the diacritic in the search term
 > db.newyork.find({$text: {$search: "Namaste", $diacriticSensitive: true}}, {name: 1}) --> same result!
 * when the capital letter or diacritic symbol is the last character, sensitive and insensitive searches will return the same result
 
+compound text index with custom weights
+> db.newyork.find({$text: {$search: "tribeca loft"}}, { _id: 0, name: 1, neighbourhood_cleansed: 1}) --> returns results from Brooklyn, etc.
+* create a weighted text index
+> db.newyork.createIndex( {name: "text", neighbourhood_cleansed: "text", description: "text"}, { weights: { name: 5, neighborhood_cleansed: 10, description: 1}, name: "my_idx"})
+use new idx
+> db.newyork.find({$text: {$search: "tribeca loft"}}, { _id: 0, name: 1, neighbourhood_cleansed: 1, score: {$meta: "textScore"}}).sort({ score: {$meta: "textScore"}}).limit(5) --> TriBeCa results shown first
 
 
+index weighting and partitioning to improve performance
+demo
+> db.newyork.dropIndexes()
+simple compound index
+> db.newyork.createIndex({ name: "text", neighbourhood_cleansed: "text", description: "text"})
+search, sort by relevance
+> db.newyork.find({$text: {$search: "tribeca loft"}}, { _id: 0, name: 1, neighbourhood_cleansed: 1, score: {$meta: "textScore"}}).sort({ score: {$meta: "textScore"}}).limit(5)
+---> tribeca lofts, scores ~ 4.8
+see non-Tribeca neighborhods
+> db.newyork.find({$text: {$search: "tribeca loft"}, neighbourhood_cleansed: {$ne: "Tribeca"}}, { _id: 0, name: 1, neighbourhood_cleansed: 1, score: {$meta: "textScore"}}).sort({ score: {$meta: "textScore"}}).limit(5)
+---> query took some time, Chinatown loft ~ 2.9
+weight the index to emphasize neighborhood
+> db.newyork.dropIndexes()
+> db.newyork.createIndex({"name": "text", "neighbourhood_cleansed": "text", "description": "text"}, { weights: {neighbourhood_cleansed:5}})
+> db.newyork.find({$text: {$search: "tribeca loft"}}, { _id: 0, name: 1, neighbourhood_cleansed: 1, score: {$meta: "textScore"}}).sort({ score: {$meta: "textScore"}}).limit(5)
+----> Tribeca scores ~ 8.5
+--~-> (query for non-tribecaa neighborhoods have scores unchanged)
+* create a partitioned index
+* the first field is an exact-match field (neighborhood)
+> db.newyork.dropIndexes()
+> db.newyork.createIndex({ neighbourhood_cleansed: 1, name: "text", description: "text" })
+use partitioned index
+> db.newyork.explain("executionStats").find({ $text: {$search: "loft"}, neighbourhood_cleansed: "Tribeca"}, {_id: 0, name: 1, score: {$meta: "textScore"}}).sort({ score: {$meta: "textScore"}}).limit(5)
+---> plan of attack shows that query is not scanning over entire collection
+> db.newyork.find({ $text: {$search: "loft"}, neighbourhood_cleansed: "Tribeca"}, {_id: 0, name: 1, score: {$meta: "textScore"}}).sort({ score: {$meta: "textScore"}}).limit(5)
+* subqueries inside a partition are full-text only (no neighbourhood_cleansed: {$ne: "Tribeca"}, for instance)
 
 
 
