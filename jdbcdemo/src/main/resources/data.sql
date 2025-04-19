@@ -1,0 +1,1 @@
+INSERT INTO speaker (name) values ('Pancho the Dog');
