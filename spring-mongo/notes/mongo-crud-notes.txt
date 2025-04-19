@@ -1,0 +1,121 @@
+# create database
+use sqlauthority
+
+# show dbs
+show dbs
+
+# show current db
+db
+
+# create collection
+db.createCollection("newusers")
+
+# show collection
+show collections
+
+** Create **
+
+# insert a document
+db.newusers.insertOne({
+  "DisplayName": "Sneaky Pete",
+  "UserName": "sneakyPete",
+  "Job": {
+    "Title": "DBA",
+    "Area": "database performance tuning",
+    "isManager": false
+  },
+  "Programming Languages": [ "SQL", "JS", "HTML" ]
+})
+
+# read collection
+db.newusers.find({})
+db.newusers.find({}).pretty()
+
+# insert multiple documents
+db.newusers.insertMany([
+  {
+    "DisplayName": "Wacky Johnny",
+    "UserName": "wackyJohnny",
+    "Job": {
+      "Title": "Backend Developer",
+      "Area": "microservice development",
+      "isManager": false
+    },
+    "Programming Languages": [ "Java", "Go", "MongoDB" ]
+  },
+  {
+    "DisplayName": "Code Ninja",
+    "UserName": "codeNinja",
+    "Job": {
+      "Title": "Full Stack Developer",
+      "Area": "web application development",
+      "isManager": false
+    },
+    "Programming Languages": [ "JavaScript", "Python", "CSS" ]
+  },
+  {
+    "DisplayName": "Manager Mike",
+    "UserName": "managerMike",
+    "Job": {
+      "Title": "Team Lead",
+      "Area": "project coordination",
+      "isManager": true
+    },
+    "Programming Languages": [ "Java", "SQL", "Python" ]
+  }
+])
+
+** Retrieve **
+
+db.collection.find( {query, i.e. what to find}, {projection, i.e. what to display} )
+.limit()
+.sort()
+
+db.movies.find({ runtime: 11}, { runtime:1, title:1, _id:0 }).limit(5).sort({title:-1})
+
+** Update **
+
+db.collection.updateOne()
+db.collection.updateMany()
+db.collection.replaceOne()
+
+in update_(), $set creates a field if not already existing
+upsert: true -> creates a document if it doesn't match the query
+
+db.movies.find({runtime: {$eq: 12}}, {runtime:1, title: 1, year:1, _id: 0}).pretty().limit(3).sort({title: -1})
+db.movies.updateOne(
+  {title:"The Old Crocodile"},
+  { $set: { title: "The Older Crocodile", year: 1989 } }
+)
+
+db.movies.find( {year: {$eq: 1988} }).count()
+db.movies.updateMany(
+  { year: {$eq: 1988} },
+  { $set: { "year": 2025 }
+  }
+)
+
+db.movies.updateMany(
+  { runtime: { $eq: 1122}},
+  { $set: { 
+    "title": "Lavaman Strikes Again",
+    "year": 2020,
+    "awards.wins": 9 }},
+  { upsert: true, w: "majority", wtimeout: 1000 }
+)
+
+db.movies.replaceOne(
+  { runtime: { $eq: 1122 }},
+  { runtime: 1122,
+    "subtitle": "Das Ende des Regenbogen", 
+    "year": 1976,
+    "awards.losses": 3 }
+)
+
+** Delete **
+
+db.collection.deleteOne( query )
+db.collection.deleteMany( query )
+
+db.movies.deleteOne( {subtitle: "Das Ende des Regenbogen"} )
+

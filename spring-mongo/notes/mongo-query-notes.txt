@@ -1,0 +1,134 @@
+
+db.collection.find(query, projection) : cursor
+- query object defines filtering criteria
+- projection object defines what fields to show or hide
+- return type is a cursor
+
+find().limit(x)
+- limits output to the first x docs
+
+find().skip(x).limit(x)
+- skips over first page of x documents
+
+mongo does not guarantee the order of returned documents unless you use sort()
+
+find().sort({ field1: 1, field2: -1})
+- sorts by field1 in Ascending order, then by field2 in Descending order
+
+db.flights.find({}, { duration: 1, "departure.city": 1})
+- note the quotes needed for a field inside an object field
+
+db.collection.findOne(query, projection) : document
+- return type is a matching document (first one, in storage order)
+
+comparison operators
+- $eq, $ne : equal to, not equal to
+- $in, $nin : in / not in a range of values
+- $lt, $lte, $gt, $gte : less than / greater than
+
+shorthand for equality filter:
+find ({ field : value }, projection)
+
+"normal" syntax using operator inside json (needed for inequality, for example)
+find ( { field : { $eq : value }}, projection)
+
+array equality matches for all fields and the order of appearance
+however, $in matches for any field in the data array with any field in the filter
+e.g. for this: { "name": "Anna Smith", "skills": [ "technical", "management" ] } 
+db.crew.find( { skills: $in: [ "engineering", "management" ]}) --> match
+db.crew.find( { skills: $in: [ "engineering", "math" ]}) --> no match
+
+$in with regex:
+db.aircraft.find( { model: { $in: [ /^A/ ] } } )   ---> all aircraft that start with "A"
+db.aircraft.find( { model: { $in: [ /^A/, /737/ ] } } )   ---> start with "A" or contain 737
+
+comparing datetime elements by wrapping the value in ISODate():
+db.flights.find( { departureDate: { $gt: ISODate("2020-02-21")} }, { departureDate: 1})
+
+$and, $or used to logically combine expressions in a filter
+db.aircraft.find( { $and: [ {capacity: 124}, {range: {$gt : 6000} } ] })
+
+- if two expressions refer to the same field, can use shorthand
+db.aircraft.find( { range: { $lt: 6000, $gt: 3000 } })
+
+querying a nested field with dot-notation
+db.crew.find({ "address.city": "Berlin" })
+
+finding a null value
+db.crew.find( { address: null }).pretty()   ---> returns null or non-existent
+db.crew.find( { address: { $exists: false } } ).pretty()   ---> returns non-existent
+
+searching for data type with $type -> see table of BSON types
+db.crew.find( { address: { $type: "object" } })
+db.crew.find( { address: { $type: "null" } })   ---> returns null (that exist)
+
+free text searches require a text index
+db.crew.createIndex( { name: "text", skills: "text" }) ---> name_text_skills_text
+
+usage:
+db.crew.find( { $text: { $search: "technical Anna" }}) ---> returns two records, containing "technical" or "Anna" in the indexed fields
+
+include the "score" for matching with $meta in the projection
+db.crew.find( { $text: { $search: "technical Anna" }}, { score: { $meta: "textScore" }})
+db.crew.find( { $text: { $search: "technical Anna" }}, { score: { $meta: "textScore" }}).sort({ score: {$meta: "textScore" }})
+
+
+query examples
+1. find all the flights that depart from Paris
+db.flights.find({ "departure.city": "Paris"}, {"departure.city": 1})
+
+2. find all the flights that meet all conditions:
+	- duration less than 2 hrs
+	- internal flights
+db.flights.find({ $and: [ {duration: {$lt: 120}}, { type: "Internal"} ]}, { duration: 1, type: 1})
+
+3. find all the flights that meet any condition:
+	- depart from Germany
+	- land in Germany
+db.flights.find({$or: [ {"departure.country": "Germany"}, {"destination.country": "Germany"} ]}).pretty()
+
+4. find all the flights where the aircraft code exists as a field
+db.flights.find({ aircraftCode: {$exists: true}}, {aircraftCode: 1})
+
+5. find all the flights where the aircraft code exists and is of type string
+db.flights.find({ aircraftCode: {$exists: true, $type: "string"} }, {aircraftCode: 1})
+
+6. implement free text search on departure and destination
+db.flights.createIndex( {"destination.city": "text", "destination.country": "text"})
+db.flights.find({ $text: {$search: "Paris Portugal"}}, { _id: 1, score: {$meta: "textScore"}})
+
+
+querying against array fields: array filter operators
+$eq 		matches all elements and order
+$all 		matches all elements in the query list (regardless of order)
+$size 		matches lists with matching number of elements
+$elemMatch  matches lists under multiple criteria
+
+array projection operators
+$slice		limits number of items in an array that the query returns (display A els., or skip A and display B els.)
+$			given an array field in the query document, $ limits the content to the first N elements that match the query condition
+$elemMatch  displays the first element that matches a particular condition
+
+e.g. show first element that matches an array query
+db.crew.find({ skills: "management" }, { name: 1, "skills.$": 1})
+
+array query examples
+1. flights containing at least one crew member of a specific nationality
+- show the first crew member from Germany per flight
+db.flights.find( {"crew.nationality": "Germany"}, {"crew.$": 1})
+
+2. flights that do not have an assigned crew
+db.flights.find( {crew: {$size: 0}}, {crew: 1})
+
+3. flights that do not have a captain
+db.flights.find({"crew.position": {$ne: "Captain"}}, {"crew.position": 1})
+
+4. flights where the captain has little hours of sleep
+db.flights.find( {crew: {$elemMatch: {position: "Captain", hoursSlept: {$lt: 6}}}}, {crew: 1})
+
+5. display only the captain when querying the flight documents
+db.flights.find({}, {crew: {$elemMatch: {position: "Captain"}}})
+
+
+
+
