@@ -19,9 +19,11 @@ class JdbcdemoApplicationTests {
 		RestTemplate restTemplate = new RestTemplate();
 
 		Speaker speaker = new Speaker();
-		speaker.setName("Corn Pop");
+		speaker.setName("Bog Wallop");
 
-		restTemplate.put("http://localhost:8080/speaker", speaker);
+		//restTemplate.put("http://localhost:8080/speaker", speaker);
+		restTemplate.postForObject("http://localhost:8080/speaker", speaker, Speaker.class);
+		System.out.println(speaker.getName());
 	}
 
 	@Test
