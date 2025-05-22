@@ -43,4 +43,22 @@ class JdbcdemoApplicationTests {
 			System.out.println("Speaker name: " + speaker.getName());
 		}
 	}
+
+	@Test
+	void testGetSpeaker() {
+		RestTemplate restTemplate = new RestTemplate();
+		Speaker speaker = restTemplate.getForObject("http://localhost:8080/speaker/{id}", Speaker.class, 9);
+        assert speaker != null;
+        System.out.println(speaker.getName());
+	}
+
+	@Test
+	void testUpdateSpeaker() {
+		RestTemplate restTemplate = new RestTemplate();
+		Speaker speaker = restTemplate.getForObject("http://localhost:8080/speaker/{id}", Speaker.class, 9);
+        assert speaker != null;
+        speaker.setName(speaker.getName() + " Jr.");
+		restTemplate.put("http://localhost:8080/speaker", speaker);
+		System.out.println(speaker.getName());
+	}
 }

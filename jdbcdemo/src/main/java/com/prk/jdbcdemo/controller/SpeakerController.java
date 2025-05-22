@@ -19,10 +19,19 @@ public class SpeakerController {
         return speakerService.findAll();
     }
 
+    @GetMapping("/speaker/{id}")
+    public Speaker getSpeaker(@PathVariable(value = "id") int id) {
+        return speakerService.getSpeaker(id);
+    }
+
     @PostMapping("/speaker")
     public Speaker createSpeaker(@RequestBody Speaker speaker) {
-        System.out.println("Name: " + speaker.getName());
-
         return speakerService.create(speaker);
+    }
+
+    @PutMapping("/speaker")
+    public Speaker updateSpeaker(@RequestBody Speaker speaker) {
+        System.out.println("Name: " + speaker.getName());
+        return speakerService.update(speaker);
     }
 }
