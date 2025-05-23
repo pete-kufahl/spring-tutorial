@@ -4,6 +4,7 @@ import com.prk.jdbcdemo.model.Speaker;
 import com.prk.jdbcdemo.repository.util.SpeakerRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -80,6 +81,10 @@ public class SpeakerRepositoryImpl implements SpeakerRepository {
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("delete from speaker where id = ?", id);
+        // jdbcTemplate.update("delete from speaker where id = ?", id);
+        var nameTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        nameTemplate.update("delete from speaker where id = :id", params);
     }
 }

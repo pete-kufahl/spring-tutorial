@@ -71,6 +71,6 @@ class JdbcdemoApplicationTests {
 	@Test
 	void testDeleteSpeaker() {
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.delete("http://localhost:8080/speaker/delete/{id}", 19);
+		restTemplate.delete("http://localhost:8080/speaker/delete/{id}", 20);
 	}
 }
