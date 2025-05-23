@@ -2,6 +2,10 @@ package com.prk.jdbcdemo.controller;
 
 import com.prk.jdbcdemo.model.Speaker;
 import com.prk.jdbcdemo.service.SpeakerService;
+import com.prk.jdbcdemo.util.ServiceError;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,5 +49,16 @@ public class SpeakerController {
     public Object deleteSpeaker(@PathVariable(value = "id") int id) {
         speakerService.deleteSpeaker(id);
         return null;
+    }
+
+    @GetMapping("/speaker/test")
+    public Object test() {
+        throw new DataAccessException("testing exception thrown") { };
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ServiceError> handle (RuntimeException ex) {
+        ServiceError error = new ServiceError(HttpStatus.OK.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.OK);
     }
 }
