@@ -10,6 +10,9 @@ variations of a spring microservice built and configured without springboot
 ## spring-mongo
 springboot project featuring mongoDB backend
 
+## jdbcdemo
+spring project using JDBC templates and H2
+
 ## soap-maven
 application that consumes a SOAP-based web service
 
