@@ -77,4 +77,9 @@ public class SpeakerRepositoryImpl implements SpeakerRepository {
     public void update(List<Object[]> pairs) {
         jdbcTemplate.batchUpdate("update speaker set skill = ? where id = ?", pairs);
     }
+
+    @Override
+    public void delete(int id) {
+        jdbcTemplate.update("delete from speaker where id = ?", id);
+    }
 }

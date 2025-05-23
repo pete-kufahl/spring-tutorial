@@ -14,4 +14,6 @@ public interface SpeakerService {
     Speaker update(Speaker speaker);
 
     void batch();
+
+    void deleteSpeaker(int id);
 }
