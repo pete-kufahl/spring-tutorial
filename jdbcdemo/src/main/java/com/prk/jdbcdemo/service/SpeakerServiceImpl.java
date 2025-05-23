@@ -2,7 +2,9 @@ package com.prk.jdbcdemo.service;
 
 import com.prk.jdbcdemo.model.Speaker;
 import com.prk.jdbcdemo.repository.SpeakerRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +39,9 @@ public class SpeakerServiceImpl implements SpeakerService {
     }
 
     @Override
+    @Transactional
     public void batch() {
-        /*
-        * example of business logic in the service layer
-        */
+
         List<Speaker> speakers = speakerRepository.findAll();
         List<Object[]> pairs = new ArrayList<>();
         for(var speaker : speakers) {
@@ -48,6 +49,9 @@ public class SpeakerServiceImpl implements SpeakerService {
             pairs.add(tmp);
         }
         speakerRepository.update(pairs);
+
+        // this will roll back the transaction
+        // throw new DataAccessException("error in batch") { };
     }
 
     @Override
