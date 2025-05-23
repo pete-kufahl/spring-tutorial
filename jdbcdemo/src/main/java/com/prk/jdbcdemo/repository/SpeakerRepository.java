@@ -12,4 +12,6 @@ public interface SpeakerRepository {
     Speaker getSpeaker(int id);
 
     Speaker update(Speaker speaker);
+
+    void update(List<Object[]> pairs);
 }

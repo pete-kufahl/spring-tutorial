@@ -40,7 +40,7 @@ class JdbcdemoApplicationTests {
 		List<Speaker> speakers = speakersResponse.getBody();
 
 		for (Speaker speaker : speakers) {
-			System.out.println("Speaker name: " + speaker.getName());
+			System.out.println("Speaker name: " + speaker.getName() + " skill: " + speaker.getSkill());
 		}
 	}
 
@@ -60,5 +60,12 @@ class JdbcdemoApplicationTests {
         speaker.setName(speaker.getName() + " Jr.");
 		restTemplate.put("http://localhost:8080/speaker", speaker);
 		System.out.println(speaker.getName());
+	}
+
+	@Test
+	void testBatchUpdate() {
+		var restTemplate = new RestTemplate();
+		restTemplate.getForObject("http://localhost:8080/speaker/batch", Object.class);
+
 	}
 }
