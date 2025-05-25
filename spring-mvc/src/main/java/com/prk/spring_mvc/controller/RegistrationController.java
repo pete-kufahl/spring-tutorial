@@ -1,16 +1,24 @@
 package com.prk.spring_mvc.controller;
 
+import com.prk.spring_mvc.model.Registration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RegistrationController {
 
     // returns the name of the appropriate jsp page
     @GetMapping("registration")
-    public String getRegistration(Map<String, Object> model) {
+    public String getRegistration(@ModelAttribute("registration")Registration registration) {
         return "registration";
     }
+
+    @PostMapping("registration")
+    public String addRegistration(@ModelAttribute("registration")Registration registration) {
+        System.out.println("Registration: " + registration.getName());
+        return "registration";
+    }
+
 }

@@ -11,4 +11,4 @@ logging:
       springframework:
         web:
           servlet:
-            view: DEBUG
+            view: INFO
