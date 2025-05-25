@@ -8,11 +8,11 @@ import java.util.Map;
 @Controller
 public class GreetingController {
 
+    // returns the name of the appropriate jsp page
     @GetMapping("greeting")
     public String greeting(Map<String, Object> model) {
         System.out.println("Greeting endpoint was hit");
         model.put("message", "hello my client");
         return "greeting";
     }
-
 }
