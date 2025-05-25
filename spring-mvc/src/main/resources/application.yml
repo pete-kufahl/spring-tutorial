@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: spring-mvc
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          servlet:
+            view: DEBUG
