@@ -13,7 +13,7 @@ springboot project featuring mongoDB backend
 ## jdbcdemo
 spring project using JDBC templates and H2
 
-## spring-mvc
+## spring-mvc, spring-mvc-frontend
 springboot web project: SPA with Spring MVC, Server Pages, Thymeleaf and React
 
 ## soap-maven
