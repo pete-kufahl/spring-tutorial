@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @Service
 @Profile("default")
-public class NormalLakeProfileSimulator implements LakeProfileSimulator {
+public class ActualLakeProfileService implements LakeProfileSimulator {
 
     private final LakeProfileRepository repository;
 
-    public NormalLakeProfileSimulator(LakeProfileRepository repository) {
+    public ActualLakeProfileService(LakeProfileRepository repository) {
         this.repository = repository;
     }
 
