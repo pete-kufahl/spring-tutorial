@@ -16,4 +16,5 @@ Single page web application (SPA) created using Springboot with Spring Web depen
 | /files/lifecycle.pdf  | static file content                     |
 | /registration?lang=es | international resource bundle (Spanish) |
 
-
+## notes
+* ThymeLeaf integration was added, then removed (see commit history)

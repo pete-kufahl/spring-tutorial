@@ -5,10 +5,23 @@
 <html>
     <head>
         <title>Registration</title>
+        <style>
+            .error {
+                color: #ff0000;
+            }
+            .errorblock {
+                color: #000;
+                background-color: #ffEEEE;
+                border: 3px solid #ff0000;
+                padding: 8px;
+                margin: 16px;
+            }
+        </style>
     </head>
     <body>
         <h1>registration</h1>
         <form:form modelAttribute="registration">
+            <form:errors path="*" cssClass="errorBlock" element="div" />
             <table>
                 <tr>
                     <td>
