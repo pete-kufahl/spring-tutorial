@@ -89,6 +89,7 @@ The `default` profile of the Lake Profile service engages an H2 database (which 
 | `flaky`       | Randomly fails 50% of the time with HTTP 503 to simulate instability.                |
 | `unavailable` | Always fails with HTTP 503 to simulate full service downtime.                        |
 | `race`        | Simulates a race condition with random behavior.                                     |
+| `badrequest`  | Service always returns a Bad Request response.                                       |
 
 ### Running LakeProfileService with Simulator Profiles
 

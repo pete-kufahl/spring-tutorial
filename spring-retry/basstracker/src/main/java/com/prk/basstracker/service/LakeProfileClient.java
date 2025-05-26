@@ -24,6 +24,7 @@ public class LakeProfileClient {
 
     @Retryable(
             include = { ResourceAccessException.class, HttpServerErrorException.class },
+            exclude = { HttpClientErrorException.BadRequest.class },
             maxAttempts = 4,
             backoff = @Backoff(delay = 2000, multiplier = 2)
     )
@@ -38,6 +39,7 @@ public class LakeProfileClient {
 
     @Retryable(
             include = { ResourceAccessException.class, HttpServerErrorException.class, HttpClientErrorException.NotFound.class },
+            exclude = { HttpClientErrorException.BadRequest.class },
             maxAttempts = 4,
             backoff = @Backoff(delay = 1000)
     )
@@ -49,7 +51,8 @@ public class LakeProfileClient {
     }
 
     @Recover
-    public LakeProfile recover(Exception ex, LakeProfile request) {
-        throw new IllegalStateException("Failed after retries: " + ex.getMessage(), ex);
+    public LakeProfile recoverFromServiceUnavailable(HttpServerErrorException ex, LakeProfile request) {
+        System.out.println("LakeProfileService is unavailable after retries. Falling back. " + ex.getMessage());
+        return null;
     }
 }
