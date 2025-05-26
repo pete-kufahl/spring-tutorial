@@ -6,6 +6,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.UUID;
+
 @Service
 public class LakeProfileClient {
 
@@ -23,7 +25,7 @@ public class LakeProfileClient {
         return response.getBody();
     }
 
-    public LakeProfile getLakeProfile(Long id) {
+    public LakeProfile getLakeProfile(UUID id) {
         return restTemplate.getForObject(
                 lakeProfileServiceBaseUrl + "/lake-profiles/" + id,
                 LakeProfile.class

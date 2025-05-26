@@ -2,4 +2,4 @@ server:
   port: 8081
 
 lake-profile-service:
-  base-url: http://localhost:8080  # Assumes LakeProfileService runs on 8080
+  base-url: http://localhost:8080/api  # Assumes LakeProfileService runs on 8080
