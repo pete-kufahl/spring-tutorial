@@ -16,6 +16,9 @@ spring project using JDBC templates and H2
 ## spring-mvc, spring-mvc-frontend
 springboot web project: SPA with Spring MVC, Server Pages, Thymeleaf and React
 
+## spring-retry
+two-microservice project for demonstrating Spring Retry features
+
 ## soap-maven
 application that consumes a SOAP-based web service
 
