@@ -18,7 +18,9 @@ public class RegistrationController {
     @PostMapping("registration")
     public String addRegistration(@ModelAttribute("registration")Registration registration) {
         System.out.println("Registration: " + registration.getName());
-        return "registration";
+        // enable post-redirect-get pattern to prevent form resubmit
+        //  input textbox is cleared after submit is pressed
+        return "redirect:registration";
     }
 
 }
