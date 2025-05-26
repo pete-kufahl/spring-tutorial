@@ -22,3 +22,16 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# stuff laying around
+.DS_Store
+events-app/.DS_Store
+jdbcdemo/.mvn/
+jdbcdemo/data/
+loans/.DS_Store
+spring-maven/.DS_Store
+spring-maven/conference/.idea/
+spring-micro-kafka/.DS_Store
+spring-mongo/flights/.mvn/
+spring-mvc/.mvn/
+spring-mvc/src/test/
