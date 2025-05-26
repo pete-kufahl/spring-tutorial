@@ -1,9 +1,13 @@
 # spring-retry
-🎣 Bass Tracker & Lake Profile Microservices
+A Spring project that simulates failrues in interservice communication, with mitigation using Spring Retry.
 
-A pair of Spring Boot microservices built to demonstrate inter-service communication without Spring Cloud.  
+Here we use:
+🎣 Bass Tracker (client) & Lake Profile (server) Microservices
+
+These are a pair of Spring Boot microservices built to demonstrate interservice communication without Spring Cloud.  
 The **BassTracker** service creates and fetches lake data by interacting with the **LakeProfileService** over HTTP.
 
+To simulate various failures, the Lake Profile service is run under various Spring profiles.
 ---
 
 ## 🧱 Architecture Overview
@@ -71,6 +75,43 @@ cd bass-tracker
 ./gradlew bootRun
 ```
 You should see the application start on port 8081.
+
+## Simulating Communication Failures
+
+### Simulator Profiles
+The `default` profile of the Lake Profile service engages an H2 database (which gets wiped out and repopulated every startup cycle). Otherwise, there are various simulation profiles:
+
+| Profile       | Behavior Description                                                                 |
+|---------------|----------------------------------------------------------------------------------------|
+| `normal`      | Healthy service behavior. No actual DB usage — all data is stored in memory.         |
+| `timeout`     | Simulates high latency by delaying responses (e.g., hangs or times out).             |
+| `socket`      | Fails with HTTP 503 for the first few requests, then recovers.                       |
+| `flaky`       | Randomly fails 50% of the time with HTTP 503 to simulate instability.                |
+| `unavailable` | Always fails with HTTP 503 to simulate full service downtime.                        |
+
+### Running LakeProfileService with Simulator Profiles
+
+You can activate different behavior profiles using the `spring.profiles.active` setting at runtime. These profiles simulate various failure scenarios or a healthy environment.
+
+#### Running via Command Line (preferred)
+Use the `--spring.profiles.active=<profile>` argument with `bootRun` or `java -jar`.
+
+Examples:
+```bash
+# Normal behavior (in-memory service)
+./gradlew :lake-profile-service:bootRun --args='--spring.profiles.active=normal'
+
+# Simulate timeout
+./gradlew :lake-profile-service:bootRun --args='--spring.profiles.active=timeout'
+
+# Simulate socket failures (recovers after 1–2 failures)
+./gradlew :lake-profile-service:bootRun --args='--spring.profiles.active=socket'
+
+# Simulate flaky service (random failures)
+./gradlew :lake-profile-service:bootRun --args='--spring.profiles.active=flaky'
+
+# Simulate fully unavailable service
+./gradlew :lake-profile-service:bootRun --args='--spring.profiles.active=unavailable'
 
 
 
