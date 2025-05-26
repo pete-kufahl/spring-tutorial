@@ -15,6 +15,7 @@ Port: 8080
 Responsibilities:
 * Exposes REST endpoints to create and retrieve LakeProfile entities.
 * Stores data in an in-memory H2 database.
+* see: http://localhost:8080/swagger-ui/index.html
 
 ### 2. BassTracker
 Port: 8081
@@ -52,8 +53,8 @@ Make sure both microservices are running simultaneously on their respective port
 ### 1. Clone the project
 
 ```bash
-git clone https://github.com/your-username/lake-bass-microservices.git
-cd lake-bass-microservices
+git clone https://github.com/pete-kufahl/spring-tutorial/spring-retry.git
+cd spring-tutorial/spring-retry
 ```
 
 ### 2. Run LakeProfileService
