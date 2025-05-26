@@ -7,23 +7,24 @@ The **BassTracker** service creates and fetches lake data by interacting with th
 ---
 
 ## 🧱 Architecture Overview
-+-------------------+ HTTP POST /lake-profiles
-| BassTracker | ------------------------------------> |
-| | |
-| Port: 8081 | |
-| Calls REST API | |
-| | <------------------------------------ |
-| | HTTP GET /lake-profiles/{id} |
-+-------------------+ |
-|
-v
-+------------------------+
-| LakeProfileService |
-| |
-| Port: 8080 |
-| Stores LakeProfiles |
-+------------------------+
+This project consists of two independent Spring Boot microservices that communicate via HTTP REST APIs.
 
+### 1. LakeProfileService
+Port: 8080
+
+Responsibilities:
+* Exposes REST endpoints to create and retrieve LakeProfile entities.
+* Stores data in an in-memory H2 database.
+
+### 2. BassTracker
+Port: 8081
+
+Responsibilities:
+* Acts as a REST client to LakeProfileService.
+* Orchestrates the following operation:
+  * Sends a POST request to create a new LakeProfile.
+  * Waits a few seconds.
+  * Sends a GET request to retrieve the newly created LakeProfile by its ID.
 
 ---
 
@@ -34,8 +35,8 @@ v
 - Spring Web
 - Spring Data JPA
 - H2 In-Memory Database
-- OpenFeign (optional alternative to `RestTemplate`)
-- Gradle (Groovy DSL)
+- RestTemplate
+- Gradle
 
 ---
 
