@@ -15,4 +15,11 @@ public class GreetingController {
         model.put("message", "hello my client");
         return "greeting";
     }
+
+    @GetMapping("thyme")
+    public String thyme(Map<String, Object> model) {
+        System.out.println("Greeting (thyme) endpoint was hit");
+        model.put("message", "hello thymeleaf");
+        return "thyme";
+    }
 }
