@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: faq-assistant
+  ai:
+    huggingface:
+      chat:
+        api-key: ${HUGGINGFACE_KEY}
+        url: https://api-inference.huggingface.co/models/google/flan-t5-large
+    openai:
+      api-key: ${HUGGINGFACE_KEY}
+      base-url: https://router.huggingface.co/novita/v3
+      chat:
+        options:
+          model: deepseek/deepseek-v3-0324
